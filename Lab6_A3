@@ -1,0 +1,401 @@
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.io.BufferedWriter;
+import java.io.File;
+
+import java.io.FileWriter;
+import java.io.PrintWriter;
+import javax.swing.*;
+
+
+
+abstract class Cake{
+  String name;
+  String [] topping;
+  String [] order;
+  double priceSmall;
+  double priceMedium;
+  double priceBig;
+  double totalPrice;
+  int size;
+  int quantity;
+  double sizep;
+  
+  String getName(){
+
+      String n=this.name;
+      return n;
+    }
+  abstract void setCake( double priceSmall, double priceMedium , double priceBig);
+  abstract void orderCake(int quantity,int size);
+  
+ }
+class BlackForest extends Cake{
+  BlackForest(String na){
+     this.name=na;
+     super.getName();
+   }
+     
+  void setCake( double priceSmall, double priceMedium , double priceBig){
+     //this.topping=topping;
+     this.priceSmall=priceSmall;
+     this.priceMedium=priceMedium;
+     this.priceBig=priceBig;  
+    }  
+  String [] gettopping(){
+      return topping;
+  }
+  double getpriceSmall(){
+     return priceSmall;
+  }
+  double getpriceMedium(){
+     return priceMedium;
+  }
+  double getpriceBig(){
+     return priceBig;
+    }
+  void orderCake(int quantity,int size){
+     //this.order=order;
+     this.quantity=quantity;
+     this.size=size;
+    
+    }
+  String[] getorder(){
+     return order;
+    }
+  int getquantity(){
+     return quantity;
+    }
+  int getsize(){
+     return size;
+    }
+  double getSizePrice(){
+    
+        if(size==1){ 
+            return priceSmall;
+        }
+        else if(size==2){
+            return priceMedium;
+        }
+        else{
+            return priceBig;
+        }
+      
+  }
+  double getTotalPrice(){
+     totalPrice=0.00;
+     totalPrice=getSizePrice()* quantity+(order.length*10) ;
+     return totalPrice;
+    }
+  String getSize(){
+      switch (size) {
+          case 1:
+              return "Small";
+          case 2:
+              return "Medium";
+          default:
+              return "Big";
+      }
+  }
+  
+ }
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+/**
+ *
+ * @author admin
+ */
+
+
+public class Assign3 {
+    //BlackForest bf=new BlackForest("Generic");
+    BlackForest bf=new BlackForest("Generic"); 
+    String[] topping = {"Chocolate", "Cherries", "Whipped Cream"}; 
+    FileWriter file;
+   {
+     JMenuBar m1=new JMenuBar();
+    
+   
+     JMenu menu=new JMenu("File");  
+     JMenuItem i1=new JMenuItem("Save");  
+     JMenuItem i2=new JMenuItem("Clear");  
+     JMenuItem i3=new JMenuItem("Exit");  
+     m1.add(menu);
+     menu.add(i1);
+     menu.add(i2);
+     menu.add(i3) ;
+
+     BlackForest bf=new BlackForest("Generic");    
+     JFrame f=new JFrame("Test Cake");
+     bf.setCake( 45.00, 65.00, 80.00);
+    
+     
+     JLabel header=new JLabel("-----------------------------------------------------------------------------------------------------------------------------------------");
+     header.setBounds(10,0,600,100);
+     f.add(header);    
+      
+     JLabel h1=new JLabel("                                                                      Cake Menu                                                              ");
+     h1.setBounds(10,10,600,100);
+     f.add(h1);    
+     
+      
+     JLabel h2=new JLabel("-----------------------------------------------------------------------------------------------------------------------------------------");
+     h2.setBounds(10,20,600,100);
+     f.add(h2);    
+     
+     
+     
+  
+     JLabel h3=new JLabel();
+     h3.setBounds(10,40,600,100);
+     h3.setText(bf.getName()+ " " + "Cake with available toppings");
+     f.add(h3);
+     
+     //enter the quantity cake that customer want
+     JLabel h17=new JLabel("Quantity: ");
+     h17.setBounds(10,100,80,20);
+     f.add(h17);
+     JTextField h18=new JTextField();
+     h18.setBounds(80,100,100,20);
+     f.add(h18);
+     
+     
+     // type of topping that can be add
+     JCheckBox h4=new JCheckBox();
+     h4.setBounds(10,120,100,20);
+     h4.setText(topping[0]);
+     f.add(h4);
+    
+    
+     JCheckBox h5=new JCheckBox();
+     h5.setBounds(10,140,100,20);
+     h5.setText(topping[1]);
+     f.add(h5);
+
+     
+     JCheckBox h6=new JCheckBox();
+     h6.setBounds(10,160,160,20);
+     h6.setText(topping[2]);
+     f.add(h6);
+   
+      
+      
+     
+     //various type of size and it price
+     JLabel h21=new JLabel("Size");
+     h21.setBounds(5,180,80,20);
+     f.add(h21);
+     JLabel h22=new JLabel("Price");
+     h22.setBounds(100,180,80,20);
+     f.add(h22);
+      JLabel h8=new JLabel();
+     h8.setBounds(10,200,80,20);
+     h8.setText("[1] Small :");
+     f.add(h8);
+     JLabel r2=new JLabel();
+     r2.setBounds(100,200,150,20);
+     r2.setText(String.valueOf(bf.getpriceSmall()));
+     f.add(r2);
+     JLabel h9=new JLabel();
+     h9.setBounds(10,220,80,20);
+     h9.setText("[2] Medium :");
+     f.add(h9);
+     JLabel r1=new JLabel();
+     r1.setBounds(100,220,150,20);
+     r1.setText(String.valueOf(bf.getpriceMedium()));
+     f.add(r1);
+     
+     JLabel h10=new JLabel();
+     h10.setBounds(10,240,80,20);
+     h10.setText("[3] Big :");
+     f.add(h10);
+     JLabel r3=new JLabel();
+     r3.setBounds(100,240,150,20);
+     r3.setText(String.valueOf(bf.getpriceBig()));
+     f.add(r3);
+     
+     //choose size
+     JLabel h19=new JLabel(" Size: ");
+     h19.setBounds(5,270,40,20);
+     f.add(h19);
+     JTextField h20=new JTextField();
+     h20.setBounds(40,270,100,20);
+     f.add(h20);   
+     
+     //to order
+     JButton jb=new JButton("Order");
+     jb.setBounds(10,300,100,20);
+     f.add(jb);
+     
+     
+     JLabel h13=new JLabel();//topping display
+     h13.setBounds(10,360,600,20);
+     f.add(h13);
+     JLabel h14=new JLabel();//size display
+     h14.setBounds(10,380,200,20);
+     f.add(h14);
+     JLabel h16=new JLabel();//total price display
+     h16.setBounds(10,400,200,20);
+     f.add(h16);
+    
+     JLabel h11=new JLabel("Cake Order detail :");
+     h11.setBounds(10,320,200,20);
+     f.add(h11);
+    
+     
+     
+     
+     
+      
+   
+   
+     //action for display output
+     jb.addActionListener(new ActionListener(){
+    @Override
+     public void actionPerformed(ActionEvent e){
+        
+   
+     
+      if(h4.isSelected()){
+      h13.setText("Topping : "+h4.getText());
+      String [] top= new String [1];
+      bf.order=top;
+      }
+     if (h5.isSelected()){
+      h13.setText("Topping : "+h5.getText());
+      String [] top= new String [1];
+      bf.order=top;
+     }
+     if (h6.isSelected()){
+      h13.setText("Topping : "+h6.getText());
+     String [] top= new String [1];
+      bf.order=top;
+     }
+     if (h4.isSelected() && h5.isSelected()){
+      h13.setText("Topping : " + h4.getText() + " and " + h5.getText());
+      String [] top= new String [2];
+      bf.order=top;
+     }
+     if  (h4.isSelected() && h6.isSelected()){
+      h13.setText("Topping : " + h4.getText() + " and " + h6.getText());
+      String [] top= new String [2];
+      bf.order=top;  
+     }
+     if (h5.isSelected() && h6.isSelected()){
+      h13.setText("Topping : " + h5.getText() + " and " + h6.getText());
+      String [] top= new String [2];
+      bf.order=top;
+     
+     }
+     if(h4.isSelected() && h6.isSelected() && h5.isSelected() ) {
+      h13.setText("Topping : " + h4.getText() + "," + h5.getText()+ "," + h6.getText());
+      String [] top= new String [3];
+      bf.order=top;
+     }
+     
+     try{
+      
+      int q=Integer.parseInt(h18.getText());
+      bf.quantity=q; 
+      int s=Integer.parseInt(h20.getText());
+      bf.size=s;
+         
+      h14.setText("Size : "+ bf.getSize());
+      h16.setText("Total Price : "+ String.valueOf(bf.getTotalPrice()));  
+    }
+     catch(NumberFormatException bf){
+        JOptionPane.showMessageDialog(null,"You have entered invalid input", "Warning", JOptionPane.PLAIN_MESSAGE);
+     }catch(Exception h16){
+        JOptionPane.showMessageDialog(null,"Fill all the info!", "Warning", JOptionPane.PLAIN_MESSAGE);
+     }
+    
+     }
+      });
+     //save to file
+      i1.addActionListener(new ActionListener(){
+    @Override
+    public void actionPerformed(ActionEvent e){
+       File fl=new File("Test Cake.txt");        
+                FileWriter fr = null;
+		BufferedWriter br = null;
+		PrintWriter pr = null;
+      
+       
+       
+       String input= h13.getText()+","+h14.getText()+","+ h16.getText();
+     
+       //exception implementation
+		try {
+			// to append to file, you need to initialize FileWriter using below constructor
+			fr = new FileWriter(fl, true);
+			br = new BufferedWriter(fr);
+			pr = new PrintWriter(br);
+			pr.println(input);
+		} catch ( Exception il ) {			
+         h13.setText(e.toString());
+ 
+         h14.setText(e.toString()); 
+         h16.setText(e.toString()); 
+		} finally {
+			try {
+				pr.close();
+				br.close();
+				fr.close();
+                                  JOptionPane.showMessageDialog(null,"File Written Succesfully!");
+			} catch (Exception il) {
+				h13.setText(e.toString());
+                                h14.setText(e.toString()); 
+                                h16.setText(e.toString()); 
+			}
+		}
+
+    }
+      });
+      
+      //clear all
+     i2.addActionListener(new ActionListener(){
+    @Override
+      public void actionPerformed(ActionEvent e){
+      h18.setText(null);
+      h20.setText(null);
+      h4.setSelected(false);
+      h5.setSelected(false);
+      h6.setSelected(false);
+      h13.setText(" ");
+      h14.setText(" ");
+      h16.setText(" ");
+    
+    
+     }
+      });
+     i3.addActionListener(new ActionListener(){
+    @Override
+     public void actionPerformed(ActionEvent e){
+     System.exit(0);
+     }
+      });     
+
+
+
+
+     f.setJMenuBar(m1);
+     f.setSize(600,600);
+     f.setLayout(null);
+     f.setBackground(Color.PINK);
+     f.setVisible(true);
+   }
+ //run
+ public static void main (String[] args)
+ {
+ new Assign3();
+
+ }    
+ }
